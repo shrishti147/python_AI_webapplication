@@ -1,0 +1,69 @@
+How to Run Python Script in Apache Web Server
+
+Here are the steps to run python script in Apache web server.
+
+
+
+1. Install Python
+In Linux, run the following command to get location of python installation
+
+$ locate python
+
+2. Edit Apache Configuration
+Open Apache Configuration file in a text editor. Here are the different possible locations of configuration file depending on your operating system.
+
+## Linux
+/etc/apache2/httpd.conf
+/etc/apache2/apache2.conf
+/etc/httpd/httpd.conf
+/etc/httpd/conf/httpd.conf
+
+## Windows
+C:\Program Files\Apache Group\Apache\conf\httpd. conf
+Look for the following line.
+
+Options Indexes FollowSymLinks
+Add ExecCGI to this line.
+
+Options Indexes FollowSymLinks ExecCGI
+Next, look for the following line.
+
+#AddHandler cgi-script .cgi
+Uncomment it by removing # at the beginning of the line.
+
+AddHandler cgi-script .cgi
+And add a .py at the end of the line.
+
+AddHandler cgi-script .cgi .py
+In order to execute python scripts in Apache, you need to use an Apache module, like CGI module, to run. That is why assign cgi-script module as the handler for .py files (python scripts).
+
+Save and close the file.
+
+
+3. Restart Apache
+Restart Apache server to apply changes.
+
+# Windows
+Start -> All Programs -> Apache . . . -> Control Apache Server menu option
+
+# Linux
+$ service apache2 restart
+
+
+4. Run Python Script on Apache
+Create a new file and add the following python code in it.
+
+#!/usr/bin/python
+print "Content-type: text/html"
+print
+print "<html><head>"
+print ""
+print "</head><body>"
+print "Hello."
+print "</body></html>"
+Save this file as test.py in htdocs folder under Apache installation directory. Open web browser, and visit apache host (and :port if the port is something other than 80) followed by test.py. For example,
+
+http://localhost/test.py
+You should be able to see ‘Hello.’ message.
+
+After that once you're able to run apache web server, save your python script in cgi-bin folder and you'll be able to run the script on http://localhost/cgi-bin/pyth.py
